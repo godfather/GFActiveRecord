@@ -1,0 +1,27 @@
+<?
+  require 'settings.php';
+  /**
+   * Function __autoload, carrega as classes automaticamente
+   * Lê o conteudo dos diretorios listados no array $directory_list
+   * e verifica se o nome da classes está nesse diretório
+   * Se estiver carrega a class caso ela ainda não esteja carregada
+   *
+   * @param $class = Nome da classe, preenchido automaticamente ao 
+   * tentar instanciar uma classe ainda não carregada
+   */
+  function __autoload($class)
+  {
+    $directory_list = array ('lib/activerecord/', 'lib/activeview/', 'lib/activesuport/', 'app/models/', 'app/controllers/');
+
+    foreach($directory_list as $directory)
+    {
+      $extension = '.class.php';
+      ($directory == 'app/controller/') ? $extension = '.controller.php' : $extension = '.class.php';
+
+      if(file_exists(PATH . "{$directory}{$class}{$extension}"))
+      {
+        require_once(PATH ."{$directory}{$class}{$extension}");
+      }
+    }
+  }
+?> 
